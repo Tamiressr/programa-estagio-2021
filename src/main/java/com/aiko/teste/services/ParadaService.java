@@ -1,5 +1,6 @@
 package com.aiko.teste.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aiko.teste.domain.Linha;
 import com.aiko.teste.domain.Parada;
+import com.aiko.teste.repositories.LinhaRepository;
 import com.aiko.teste.repositories.ParadaRepository;
 import com.aiko.teste.services.exceptions.ObjectNotFoundException;
 @Service
@@ -16,11 +19,15 @@ public class ParadaService {
 	
 	@Autowired
 	private ParadaRepository paradaRepository;
+	@Autowired
+	private LinhaRepository linhaRepository;
 	
 	@Transactional
 	public Parada insert( Parada obj) {
-		obj.setId(0);
 		obj= paradaRepository.save(obj);
+		
+		//linhaRepository.saveAll(obj.getLinhas());
+		
 		return obj;
 	}
 	public Parada find(long id) {
@@ -40,7 +47,11 @@ public class ParadaService {
 		return paradaRepository.save(p);
 		}
 	
-	
+	public void addLinha(Linha linha,Parada p) {
+		List <Linha> linhas= new ArrayList<Linha>();
+		linhas.add(linha);
+		p.setLinhas(linhas);
+	}
 	//método auxiliar para atualização de dados
 	private void updateData(Parada p, Parada obj){
 	

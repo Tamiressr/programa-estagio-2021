@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.aiko.teste.domain.Linha;
+import com.aiko.teste.domain.Parada;
+import com.aiko.teste.domain.Veiculo;
 import com.aiko.teste.services.LinhaService;
+import com.aiko.teste.services.ParadaService;
+import com.aiko.teste.services.VeiculoService;
 
 @RestController
 @RequestMapping(value="/linhas")
@@ -24,9 +28,9 @@ public class LinhaResource {
 	
 	@Autowired
 	private LinhaService linhaService;
-	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Linha obj){
+		
 		Linha linha=linhaService.insert(obj);
 		//pega a uri do novo recurso que foi inserido
 		URI uri=ServletUriComponentsBuilder.fromCurrentRequest()
@@ -36,7 +40,7 @@ public class LinhaResource {
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<Linha> find(@PathVariable Integer id) {
+	public ResponseEntity<Linha> find(@PathVariable long id) {
 
 			
 		Linha obj= linhaService.find(id);

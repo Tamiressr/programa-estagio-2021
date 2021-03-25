@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Veiculo implements Serializable{
@@ -19,7 +21,9 @@ public class Veiculo implements Serializable{
 	private long id;
 	private String name;
 	private String modelo;
-	private long linhaId;
+	@ManyToOne
+	@JoinColumn(name = "linha_id", nullable=false)
+	private Linha linhaId;
 	
 	
 	public Veiculo() {
@@ -27,7 +31,8 @@ public class Veiculo implements Serializable{
 	}
 		
 	
-	public Veiculo(long id, String name, String modelo, long linhaId) {
+	public Veiculo(long id, String name, String modelo, Linha linhaId) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.modelo = modelo;
@@ -54,10 +59,10 @@ public class Veiculo implements Serializable{
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	public long getLinhaId() {
+	public Linha getLinhaId() {
 		return linhaId;
 	}
-	public void setLinhaId(long linhaId) {
+	public void setLinhaId(Linha linhaId) {
 		this.linhaId = linhaId;
 	}
 

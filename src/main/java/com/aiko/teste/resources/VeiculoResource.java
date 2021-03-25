@@ -14,48 +14,46 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.aiko.teste.domain.Parada;
-import com.aiko.teste.services.ParadaService;
-
+import com.aiko.teste.domain.Veiculo;
+import com.aiko.teste.services.VeiculoService;
 
 @RestController
-@RequestMapping(value="/paradas")
-public class ParadaResource {
-
+@RequestMapping(value="/veiculos")
+public class VeiculoResource {
 	@Autowired
-	private ParadaService paradaService;
+	private VeiculoService veiculoService;
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Parada obj){
-		Parada parada=paradaService.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody Veiculo obj){
+		Veiculo veiculo=veiculoService.insert(obj);
 		//pega a uri do novo recurso que foi inserido
 		URI uri=ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(parada.getId()).toUri();
+				.path("/{id}").buildAndExpand(veiculo.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 		
 	}
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<Parada> findById(@PathVariable long id){
+	public ResponseEntity<Veiculo> findById(@PathVariable long id){
 		
-		Parada parada=paradaService.find(id);
-		return ResponseEntity.ok().body(parada);		
+		Veiculo veiculo=veiculoService.find(id);
+		return ResponseEntity.ok().body(veiculo);		
 	}
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<Parada>> findAll(){
-		List <Parada> parada=paradaService.findAll();
-		return ResponseEntity.ok().body(parada);		
+	public ResponseEntity<List<Veiculo>> findAll(){
+		List <Veiculo> veiculo=veiculoService.findAll();
+		return ResponseEntity.ok().body(veiculo);		
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Parada> update(@Valid @RequestBody  Parada p,@PathVariable long id){
-		Parada obj=new Parada(p.getName(),p.getLatitude(),p.getLongitude());
+	public ResponseEntity<Veiculo> update(@Valid @RequestBody  Veiculo p,@PathVariable long id){
+		Veiculo obj=new Veiculo(p.getId(),p.getName(), p.getModelo(),p.getLinhaId());
 		obj.setId(id);
-			obj= paradaService.update(obj);
+			obj= veiculoService.update(obj);
 		return ResponseEntity.noContent().build();		
 	}
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	public ResponseEntity<Parada> delete(@PathVariable long id) {
-		 paradaService.delete(id);
+	public ResponseEntity<Veiculo> delete(@PathVariable long id) {
+		veiculoService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
